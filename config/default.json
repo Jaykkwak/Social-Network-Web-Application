@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://tjdtjdwo:tjdtjdwo123@devconnector.mj7nl.mongodb.net/"
+  "mongoURI": "mongodb+srv://tjdtjdwo:tjdtjdwo123@devconnector.mj7nl.mongodb.net/",
+  "JwtSecret": "mysecrettoken"
 }
