@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const Profile = require("../../models/Profile");
+const { check, validationResult } = require("express-validator");
 
 //@route    GET api/profile/me
 //@desc     Test route
@@ -24,5 +25,83 @@ router.get("/me", auth, async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+//@route    POST api/profile
+//@desc     Create or update user profile
+//@access   Private
+router.post(
+  "/",
+  [
+    auth,
+    [
+      check("status", "Status is required").not().isEmpty(),
+      check("skills", "Skills is required").not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    // // Check for unexpected fields in the request body
+    // const allowedFields = ["status", "skills"];
+    // const unexpectedFields = Object.keys(req.body).filter(
+    //   (field) => !allowedFields.includes(field)
+    // );
+
+    // if (unexpectedFields.length > 0) {
+    //   return res.status(400).json({
+    //     errors: [{ msg: `Unexpected fields: ${unexpectedFields.join(", ")}` }],
+    //   });
+    // }
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    // destructure the request
+    const {
+      company,
+      website,
+      location,
+      bio,
+      status,
+      githubusername,
+      skills,
+      youtube,
+      facebook,
+      twitter,
+      instagram,
+      linkedin,
+    } = req.body;
+
+    profileFields.social = {};
+    if (youtube) profileFields.social.youtube = youtube;
+    if (twitter) profileFields.social.twitter = twitter;
+    if (facebook) profileFields.social.facebook = facebook;
+    if (linkedin) profileFields.social.linkedin = linkedin;
+    if (instagram) profileFields.social.instagram = instagram;
+
+    try {
+      let profile = await Profile.findOne({ user: req.user.id });
+
+      if (profile) {
+        profile = await Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileFields },
+          { new: true }
+        );
+
+        return res.json(profile);
+      }
+
+      profile = new Profile(profileFields);
+      await profile.save();
+
+      return res.json(profile);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send("Server Error");
+    }
+  }
+);
 
 module.exports = router;
