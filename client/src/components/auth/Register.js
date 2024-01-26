@@ -1,17 +1,26 @@
-import React, { Fragment, useState } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
 import { register } from "../../actions/auth";
 import PropTypes from "prop-types";
 
-const Register = ({ setAlert, register }) => {
+const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [formData, SetFormData] = useState({
     name: "",
     email: "",
     password: "",
     password2: "",
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const { name, email, password, password2 } = formData;
 
@@ -23,10 +32,10 @@ const Register = ({ setAlert, register }) => {
     e.preventDefault();
 
     if (password !== password2) {
-      setAlert("Password do not match", "danger");
+      dispatch(setAlert("Password do not match", "danger"));
       console.log("doesn't match");
     } else {
-      register({ name, email, password });
+      dispatch(register({ name, email, password }));
     }
   };
 
@@ -91,4 +100,4 @@ Register.propTypes = {
   register: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setAlert, register })(Register);
+export default Register;

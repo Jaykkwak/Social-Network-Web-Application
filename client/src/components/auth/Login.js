@@ -1,11 +1,23 @@
-import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { Fragment, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../actions/auth";
+import PropTypes from "prop-types";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const [formData, SetFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, []);
 
   const { email, password } = formData;
 
@@ -13,11 +25,15 @@ const Login = () => {
     SetFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    dispatch(login(email, password));
   };
+
+  if (isAuthenticated) {
+    return navigate("/dashboard");
+  }
 
   return (
     <Fragment>
@@ -56,6 +72,11 @@ const Login = () => {
       </p>
     </Fragment>
   );
+};
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool,
 };
 
 export default Login;
