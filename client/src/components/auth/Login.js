@@ -17,7 +17,7 @@ const Login = () => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const { email, password } = formData;
 
@@ -30,10 +30,6 @@ const Login = () => {
 
     dispatch(login(email, password));
   };
-
-  if (isAuthenticated) {
-    return navigate("/dashboard");
-  }
 
   return (
     <Fragment>

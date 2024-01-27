@@ -7,10 +7,10 @@ import {
   REGISTER_FAIL,
   REGISTER_SUCCESS,
   USER_LOADED,
+  CLER_PROFILE,
 } from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
-import { redirect } from "react-router-dom";
 
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
@@ -96,7 +96,9 @@ export const login = (email, password) => async (dispatch) => {
 };
 
 export const logout = () => (dispatch) => {
-  redirect("/");
+  dispatch({
+    type: CLER_PROFILE,
+  });
   dispatch({
     type: LOGOUT,
   });
