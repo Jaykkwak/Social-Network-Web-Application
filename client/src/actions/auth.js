@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   AUTH_ERROR,
   LOGIN_FAIL,
+  LOGOUT,
   LOGIN_SUCCESS,
   REGISTER_FAIL,
   REGISTER_SUCCESS,
@@ -9,6 +10,7 @@ import {
 } from "./types";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
+import { redirect } from "react-router-dom";
 
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
@@ -91,4 +93,11 @@ export const login = (email, password) => async (dispatch) => {
       type: LOGIN_FAIL,
     });
   }
+};
+
+export const logout = () => (dispatch) => {
+  redirect("/");
+  dispatch({
+    type: LOGOUT,
+  });
 };
