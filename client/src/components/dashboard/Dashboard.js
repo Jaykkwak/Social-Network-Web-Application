@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 import DashboardActions from "./DashboardAction";
+import Experience from "./Experience";
+import Education from "./Education";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -15,7 +17,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getCurrentProfile());
-  }, [getCurrentProfile]);
+  }, []);
 
   return loading && profile === null ? (
     <Spinner />
@@ -29,6 +31,8 @@ const Dashboard = () => {
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
+          <Experience experience={profile.experience} />
+          <Education education={profile.education} />
         </Fragment>
       ) : (
         <Fragment>

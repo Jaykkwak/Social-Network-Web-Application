@@ -10,3 +10,4 @@ export const LOGOUT = "LOGOUT";
 export const GET_PROFILE = "GET_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const CLER_PROFILE = "CLER_PROFILE";
+export const UPDATE_PROFILE = "CUPDATE_PROFILE";
