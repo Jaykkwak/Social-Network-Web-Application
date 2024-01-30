@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getCurrentProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
+import DashboardActions from "./DashboardAction";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getCurrentProfile());
-  }, []);
+  }, [getCurrentProfile]);
 
   return loading && profile === null ? (
     <Spinner />
@@ -22,12 +23,13 @@ const Dashboard = () => {
     <Fragment>
       <h1 className="large text-primary">Dashboard</h1>
       <p className="lead">
-        {" "}
         <i className="fas fa-user" />
         Welcome {user && user.name}
       </p>
       {profile !== null ? (
-        <Fragment>has</Fragment>
+        <Fragment>
+          <DashboardActions />
+        </Fragment>
       ) : (
         <Fragment>
           <p>You have not yet setup a profile, please add some info</p>

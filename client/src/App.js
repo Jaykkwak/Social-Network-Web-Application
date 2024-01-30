@@ -12,6 +12,7 @@ import { loadUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
 import Dashboard from "./components/dashboard/Dashboard";
 import PrivateRoute from "./components/routing/PrivateRoute";
+import CreateProfile from "./components/profile-forms/CreateProfile";
 
 const App = () => {
   if (localStorage.token) {
@@ -33,11 +34,19 @@ const App = () => {
           <section className="container">
             <Alert />
             <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
+              <Route path="login" element={<Login />} />
+              <Route path="register" element={<Register />} />
               <Route
                 path="dashboard"
                 element={<PrivateRoute component={Dashboard} />}
+              />
+              <Route
+                path="create-profile"
+                element={<PrivateRoute component={CreateProfile} />}
+              />
+              <Route
+                path="edit-profile"
+                element={<PrivateRoute component={CreateProfile} />}
               />
             </Routes>
           </section>
