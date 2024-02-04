@@ -73,20 +73,22 @@ router.get("/:id", auth, async (req, res) => {
 router.delete("/:id", auth, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
+
     if (!post) {
-      return res.status(404).json({ msg: "Post is not founded" });
+      return res.status(404).json({ msg: "Post not found" });
     }
 
+    // Check user
     if (post.user.toString() !== req.user.id) {
-      return res.status(404).json({ msg: "User is not Authorized" });
+      return res.status(401).json({ msg: "User not authorized" });
     }
 
-    await post.remove();
+    await Post.deleteOne({ _id: req.params.id });
+    res.json({ msg: "Post removed" });
   } catch (err) {
     if (err.kind == "ObjectId") {
       return res.status(404).json({ msg: "Post is not founded" });
     }
-
     console.log(err.message);
     res.status(500).send("Server error");
   }
@@ -110,9 +112,9 @@ router.put("/like/:id", auth, async (req, res) => {
       return res.status(400).json({ msg: "Post already liked" });
     }
 
-    post.unshift({ user: req.user.id });
+    post.likes.unshift({ user: req.user.id });
     await post.save();
-    res.json(post);
+    res.json(post.likes);
   } catch (err) {
     if (err.kind == "ObjectId") {
       res.status(404).send("Post is not founded");
