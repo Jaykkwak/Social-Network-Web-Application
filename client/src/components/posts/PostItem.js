@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import formatDate from "../../utils/formatDate";
 import { useDispatch, useSelector } from "react-redux";
 import { addLike, removeLike, deletePost } from "../../actions/post";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, showActions }) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const { _id, text, name, avatar, user, likes, comments, date } = post;
@@ -37,12 +37,16 @@ const PostItem = ({ post }) => {
         >
           Unlike
         </button>
-        <Link to={`/posts/${_id}`} className="btn btn-primary">
-          Discussion{" "}
-          {comments.length > 0 && (
-            <span className="comment-count">{comments.length}</span>
-          )}
-        </Link>
+        {showActions && (
+          <Fragment>
+            <Link to={`/posts/${_id}`} className="btn btn-primary">
+              Discussion{" "}
+              {comments.length > 0 && (
+                <span className="comment-count">{comments.length}</span>
+              )}
+            </Link>
+          </Fragment>
+        )}
         {!auth.loading && user === auth.user._id && (
           <button
             onClick={() => dispatch(deletePost(_id))}
@@ -57,12 +61,16 @@ const PostItem = ({ post }) => {
   );
 };
 
+PostItem.defaultProps = {
+  showActions: true,
+};
+
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  //   addLike: PropTypes.func.isRequired,
-  //   removeLike: PropTypes.func.isRequired,
-  //   deletePost: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
 };
 
 export default PostItem;
