@@ -1,14 +1,18 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import formatDate from "../../utils/formatDate";
 import { useDispatch, useSelector } from "react-redux";
 import { addLike, removeLike, deletePost } from "../../actions/post";
 
-const PostItem = ({ post, showActions }) => {
+const PostItem = ({
+  post: { _id, text, name, avatar, user, likes, comments, date },
+  showActions,
+}) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
-  const { _id, text, name, avatar, user, likes, comments, date } = post;
+
+  useEffect(() => {}, [likes]);
 
   return (
     <div className="post bg-white p-1 my-1">
@@ -27,8 +31,8 @@ const PostItem = ({ post, showActions }) => {
           type="button"
           className="btn btn-light"
         >
-          Like
-          <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+          Like &nbsp;
+          {<span>{likes.length}</span>}
         </button>
         <button
           onClick={() => dispatch(removeLike(_id))}

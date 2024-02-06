@@ -148,7 +148,7 @@ router.put("/unlike/:id", auth, async (req, res) => {
     post.likes.splice(removeIndex, 1);
 
     await post.save();
-    res.json(post);
+    res.json(post.likes);
   } catch (err) {
     if (err.kind == "ObjectId") {
       res.status(404).send("Post is not founded");

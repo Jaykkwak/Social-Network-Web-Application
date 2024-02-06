@@ -7,12 +7,12 @@ import PostForm from "./PostForm";
 
 const Posts = () => {
   const dispatch = useDispatch();
-  const post = useSelector((state) => state.post);
-  const { posts } = post;
+  const postState = useSelector((state) => state.post);
+  const { posts } = postState;
 
   useEffect(() => {
     dispatch(getPosts());
-  }, [post]);
+  }, []);
 
   return (
     <section className="container">
