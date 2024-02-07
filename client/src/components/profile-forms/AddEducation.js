@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -7,7 +7,7 @@ import { addEducation } from "../../actions/profile";
 const AddEducation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [formData, setFormData] = useState({
+  const formDataRef = useRef({
     school: "",
     degree: "",
     fieldofstudy: "",

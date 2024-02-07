@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addComment } from "../../actions/post";
 
 const CommentForm = ({ postId, addComment }) => {
-  const [text, setText] = useState("");
+  const textRef = useRef("");
 
   return (
     <div className="post-form">
@@ -15,8 +15,8 @@ const CommentForm = ({ postId, addComment }) => {
         className="form my-1"
         onSubmit={(e) => {
           e.preventDefault();
-          addComment(postId, { text });
-          setText("");
+          addComment(postId, { text: textRef.current.value });
+          textRef.current.value = "";
         }}
       >
         <textarea
@@ -24,8 +24,7 @@ const CommentForm = ({ postId, addComment }) => {
           cols="30"
           rows="5"
           placeholder="Comment the post"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          ref={textRef}
           required
         />
         <input type="submit" className="btn btn-dark my-1" value="Submit" />

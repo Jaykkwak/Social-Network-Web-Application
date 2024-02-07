@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
@@ -8,34 +8,33 @@ import PropTypes from "prop-types";
 const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const nameRef = useRef("");
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
+  const password2Ref = useRef("");
+
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const [formData, SetFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    password2: "",
-  });
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
     }
-  }, []);
-
-  const { name, email, password, password2 } = formData;
-
-  const onChange = (e) => {
-    SetFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  }, [isAuthenticated]);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    if (password !== password2) {
+    if (passwordRef.current.value !== password2Ref.current.value) {
       dispatch(setAlert("Password do not match", "danger"));
       console.log("doesn't match");
     } else {
-      dispatch(register({ name, email, password }));
+      dispatch(
+        register({
+          name: nameRef.current.value,
+          email: emailRef.current.value,
+          password: passwordRef.current.value,
+        })
+      );
     }
   };
 
@@ -47,21 +46,14 @@ const Register = () => {
       </p>
       <form className="form" action="create-profile.html" onSubmit={onSubmit}>
         <div className="form-group">
-          <input
-            type="text"
-            placeholder="Name"
-            name="name"
-            value={name}
-            onChange={onChange}
-          />
+          <input type="text" placeholder="Name" name="name" ref={nameRef} />
         </div>
         <div className="form-group">
           <input
             type="email"
             placeholder="Email Address"
             name="email"
-            value={email}
-            onChange={onChange}
+            ref={emailRef}
           />
           <small className="form-text">
             This site uses Gravatar so if you want a profile image, use a
@@ -73,8 +65,7 @@ const Register = () => {
             type="password"
             placeholder="Password"
             name="password"
-            value={password}
-            onChange={onChange}
+            ref={passwordRef}
           />
         </div>
         <div className="form-group">
@@ -82,8 +73,7 @@ const Register = () => {
             type="password"
             placeholder="Confirm Password"
             name="password2"
-            value={password2}
-            onChange={onChange}
+            ref={password2Ref}
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Register" />

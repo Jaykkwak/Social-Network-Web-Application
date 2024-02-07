@@ -12,8 +12,6 @@ const PostItem = ({
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
 
-  useEffect(() => {}, [likes]);
-
   return (
     <div className="post bg-white p-1 my-1">
       <div>

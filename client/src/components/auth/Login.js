@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/auth";
@@ -7,11 +7,9 @@ import PropTypes from "prop-types";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const emailRef = useRef("");
+  const passwordRef = useRef("");
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-  const [formData, SetFormData] = useState({
-    email: "",
-    password: "",
-  });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -19,16 +17,10 @@ const Login = () => {
     }
   }, [isAuthenticated]);
 
-  const { email, password } = formData;
-
-  const onChange = (e) => {
-    SetFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(login(email, password));
+    dispatch(login(emailRef.current.value, passwordRef.current.value));
   };
 
   return (
@@ -43,8 +35,7 @@ const Login = () => {
             type="email"
             placeholder="Email Address"
             name="email"
-            value={email}
-            onChange={onChange}
+            ref={emailRef}
           />
           <small className="form-text">
             This site uses Gravatar so if you want a profile image, use a
@@ -57,8 +48,7 @@ const Login = () => {
             placeholder="Password"
             name="password"
             minLength="6"
-            value={password}
-            onChange={onChange}
+            ref={passwordRef}
           />
         </div>
         <input type="submit" className="btn btn-primary" value="Login" />
