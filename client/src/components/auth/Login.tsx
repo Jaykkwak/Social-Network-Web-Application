@@ -4,12 +4,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/auth";
 import PropTypes from "prop-types";
 
-const Login = () => {
+interface Auth {
+  token: string;
+  isAuthenticated: boolean;
+  loading: boolean;
+}
+
+interface StateType {
+  auth: Auth;
+}
+
+const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const isAuthenticated = useSelector(
+    (state: StateType) => state.auth.isAuthenticated
+  );
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -47,7 +59,7 @@ const Login = () => {
             type="password"
             placeholder="Password"
             name="password"
-            minLength="6"
+            minLength={6}
             ref={passwordRef}
           />
         </div>
