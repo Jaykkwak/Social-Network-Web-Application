@@ -1,27 +1,15 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../actions/auth";
+import { login } from "../../actions/auth.tsx";
 import PropTypes from "prop-types";
-
-interface Auth {
-  token: string;
-  isAuthenticated: boolean;
-  loading: boolean;
-}
-
-interface StateType {
-  auth: Auth;
-}
+import { useAppSelector, useAppDispatch } from "../../hooks.ts";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const isAuthenticated = useSelector(
-    (state: StateType) => state.auth.isAuthenticated
-  );
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -32,7 +20,7 @@ const Login: React.FC = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    dispatch(login(emailRef.current.value, passwordRef.current.value));
+    dispatch(login(emailRef.current?.value, passwordRef.current?.value));
   };
 
   return (

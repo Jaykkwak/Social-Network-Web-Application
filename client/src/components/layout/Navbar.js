@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../actions/auth";
+import { logout } from "../../actions/auth.tsx";
 import PropTypes from "prop-types";
 
 const Navbar = () => {

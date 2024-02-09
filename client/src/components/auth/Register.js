@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { setAlert } from "../../actions/alert";
-import { register } from "../../actions/auth";
+import { register } from "../../actions/auth.tsx";
 import PropTypes from "prop-types";
 
 const Register = () => {
