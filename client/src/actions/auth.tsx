@@ -9,10 +9,13 @@ import {
   USER_LOADED,
   CLER_PROFILE,
 } from "./types";
+import { ThunkAction } from "redux-thunk";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
+import { Dispatch, UnknownAction } from "redux";
+import { AppThunk, RootState } from "../store";
 
-export const loadUser = () => async (dispatch) => {
+export const loadUser = () => async (dispatch: Dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
@@ -63,37 +66,39 @@ export const register =
     }
   };
 
-export const login = (email, password) => async (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const login =
+  (email: string | undefined, password: string | undefined): AppThunk =>
+  async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-  const body = JSON.stringify({ email, password });
+    const body = JSON.stringify({ email, password });
 
-  try {
-    const res = await axios.post("/api/auth", body, config);
-    dispatch({
-      type: LOGIN_SUCCESS,
-      payload: res.data,
-    });
+    try {
+      const res = await axios.post("/api/auth", body, config);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
 
-    dispatch(loadUser());
-  } catch (err) {
-    const errors = err.response.data.errors;
+      dispatch(loadUser());
+    } catch (err) {
+      const errors = err.response.data.errors;
 
-    if (errors) {
-      errors.forEach((error) => {
-        dispatch(setAlert(error.msg, "danger"));
+      if (errors) {
+        errors.forEach((error) => {
+          dispatch(setAlert(error.msg, "danger"));
+        });
+      }
+
+      dispatch({
+        type: LOGIN_FAIL,
       });
     }
-
-    dispatch({
-      type: LOGIN_FAIL,
-    });
-  }
-};
+  };
 
 export const logout = () => (dispatch) => {
   dispatch({

@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../actions/auth.tsx";
-import PropTypes from "prop-types";
 import { useAppSelector, useAppDispatch } from "../../hooks.ts";
 
 const Login: React.FC = () => {
@@ -17,7 +16,7 @@ const Login: React.FC = () => {
     }
   }, [isAuthenticated]);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(login(emailRef.current?.value, passwordRef.current?.value));
@@ -58,11 +57,6 @@ const Login: React.FC = () => {
       </p>
     </Fragment>
   );
-};
-
-Login.propTypes = {
-  login: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool,
 };
 
 export default Login;
