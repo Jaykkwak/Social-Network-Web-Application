@@ -9,11 +9,16 @@ import {
   USER_LOADED,
   CLER_PROFILE,
 } from "./types";
-import { ThunkAction } from "redux-thunk";
 import { setAlert } from "./alert";
 import setAuthToken from "../utils/setAuthToken";
 import { Dispatch, UnknownAction } from "redux";
 import { AppThunk, RootState } from "../store";
+
+interface Tregister {
+  name: string | undefined;
+  email: string | undefined;
+  password: string | undefined;
+}
 
 export const loadUser = () => async (dispatch: Dispatch) => {
   if (localStorage.token) {
@@ -34,7 +39,7 @@ export const loadUser = () => async (dispatch: Dispatch) => {
 };
 
 export const register =
-  ({ name, email, password }) =>
+  ({ name, email, password }: Tregister): AppThunk =>
   async (dispatch) => {
     const config = {
       headers: {

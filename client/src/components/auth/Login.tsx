@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     }
   }, [isAuthenticated]);
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(login(emailRef.current?.value, passwordRef.current?.value));

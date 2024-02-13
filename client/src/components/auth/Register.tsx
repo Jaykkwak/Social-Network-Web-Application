@@ -1,19 +1,19 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { Fragment, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { setAlert } from "../../actions/alert";
+import { setAlert } from "../../actions/alert.js";
 import { register } from "../../actions/auth.tsx";
 import PropTypes from "prop-types";
+import { useAppDispatch, useAppSelector } from "../../hooks.ts";
 
-const Register = () => {
-  const dispatch = useDispatch();
+const Register: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const nameRef = useRef("");
-  const emailRef = useRef("");
-  const passwordRef = useRef("");
-  const password2Ref = useRef("");
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const password2Ref = useRef<HTMLInputElement>(null);
 
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -21,18 +21,18 @@ const Register = () => {
     }
   }, [isAuthenticated]);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (passwordRef.current.value !== password2Ref.current.value) {
+    if (passwordRef.current?.value !== password2Ref.current?.value) {
       dispatch(setAlert("Password do not match", "danger"));
       console.log("doesn't match");
     } else {
       dispatch(
         register({
-          name: nameRef.current.value,
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
+          name: nameRef.current?.value,
+          email: emailRef.current?.value,
+          password: passwordRef.current?.value,
         })
       );
     }
