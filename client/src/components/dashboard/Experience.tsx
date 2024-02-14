@@ -1,11 +1,18 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { deleteExperience } from "../../actions/profile";
+import { deleteExperience } from "../../actions/profile.tsx";
 import formatDate from "../../utils/formatDate";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks.ts";
+
+interface TexperienceProp {
+  _id: string;
+  company: string;
+  title: string;
+  from: string;
+  to: string;
+}
 
 const Experience = ({ experience }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const experiences = experience.map((exp) => (
     <tr key={exp._id}>
@@ -41,11 +48,6 @@ const Experience = ({ experience }) => {
       </table>
     </Fragment>
   );
-};
-
-Experience.propTypes = {
-  experience: PropTypes.array.isRequired,
-  deleteExperience: PropTypes.func.isRequired,
 };
 
 export default Experience;

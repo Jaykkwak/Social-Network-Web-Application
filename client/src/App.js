@@ -10,7 +10,7 @@ import store from "./store.ts";
 import Alert from "./components/layout/Alert";
 import { loadUser } from "./actions/auth.tsx";
 import setAuthToken from "./utils/setAuthToken";
-import Dashboard from "./components/dashboard/Dashboard";
+import Dashboard from "./components/dashboard/Dashboard.tsx";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import CreateProfile from "./components/profile-forms/CreateProfile";
 import AddExperience from "./components/profile-forms/AddExperience";

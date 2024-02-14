@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
-import { getProfilesById } from "../../actions/profile";
+import { getProfilesById } from "../../actions/profile.tsx";
 import { Link, useParams } from "react-router-dom";
 import Spinner from "../layout/Spinner";
 import ProfileAbout from "./ProfileAbout";

@@ -1,17 +1,16 @@
 import React, { Fragment, useEffect } from "react";
-import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { getCurrentProfile } from "../../actions/profile";
+import { Link } from "react-router-dom";
+import { getCurrentProfile } from "../../actions/profile.tsx";
 import Spinner from "../layout/Spinner";
 import DashboardActions from "./DashboardAction";
-import Experience from "./Experience";
-import Education from "./Education";
+import Experience from "./Experience.tsx";
+import Education from "./Education.tsx";
+import { useAppDispatch, useAppSelector } from "../../hooks.ts";
 
-const Dashboard = () => {
-  const dispatch = useDispatch();
-  const auth = useSelector((state) => state.auth);
-  const profileState = useSelector((state) => state.profile);
+const Dashboard: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const auth = useAppSelector((state) => state.auth);
+  const profileState = useAppSelector((state) => state.profile);
   const { profile, loading } = profileState;
   const { user } = auth;
 
@@ -44,12 +43,6 @@ const Dashboard = () => {
       )}
     </Fragment>
   );
-};
-
-Dashboard.propType = {
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
 };
 
 export default Dashboard;

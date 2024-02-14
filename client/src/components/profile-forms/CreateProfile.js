@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { createProfile, getCurrentProfile } from "../../actions/profile";
+import { createProfile, getCurrentProfile } from "../../actions/profile.tsx";
 import PropTypes from "prop-types";
 
 const initialState = {

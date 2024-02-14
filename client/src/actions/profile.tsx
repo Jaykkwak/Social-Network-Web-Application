@@ -7,6 +7,7 @@ import {
   UPDATE_PROFILE,
 } from "./types";
 import { setAlert } from "./alert";
+import { AppThunk } from "../store";
 
 export const getCurrentProfile = () => async (dispatch) => {
   try {
@@ -146,36 +147,40 @@ export const addEducation = (formData) => async (dispatch) => {
   }
 };
 
-export const deleteExperience = (id) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`/api/profile/experience/${id}`);
-    dispatch({
-      type: UPDATE_PROFILE,
-      payload: res.data,
-    });
+export const deleteExperience =
+  (id: string): AppThunk =>
+  async (dispatch) => {
+    try {
+      const res = await axios.delete(`/api/profile/experience/${id}`);
+      dispatch({
+        type: UPDATE_PROFILE,
+        payload: res.data,
+      });
 
-    dispatch(setAlert("Experience Removed", "success"));
-  } catch (err) {
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
+      dispatch(setAlert("Experience Removed", "success"));
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  };
 
-export const deleteEducation = (id) => async (dispatch) => {
-  try {
-    const res = await axios.delete(`/api/profile/Education/${id}`);
-    dispatch({
-      type: UPDATE_PROFILE,
-      payload: res.data,
-    });
+export const deleteEducation =
+  (id): AppThunk =>
+  async (dispatch) => {
+    try {
+      const res = await axios.delete(`/api/profile/Education/${id}`);
+      dispatch({
+        type: UPDATE_PROFILE,
+        payload: res.data,
+      });
 
-    dispatch(setAlert("Education Removed", "success"));
-  } catch (err) {
-    dispatch({
-      type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
-    });
-  }
-};
+      dispatch(setAlert("Education Removed", "success"));
+    } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  };

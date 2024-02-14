@@ -20,7 +20,7 @@ interface Tregister {
   password: string | undefined;
 }
 
-export const loadUser = () => async (dispatch: Dispatch) => {
+export const loadUser = (): AppThunk => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }

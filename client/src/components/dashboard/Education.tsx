@@ -1,11 +1,10 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { deleteEducation } from "../../actions/profile";
+import { deleteEducation } from "../../actions/profile.tsx";
 import formatDate from "../../utils/formatDate";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks.ts";
 
 const Education = ({ education }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const educations = education.map((edu) => (
     <tr key={edu._id}>
@@ -41,11 +40,6 @@ const Education = ({ education }) => {
       </table>
     </Fragment>
   );
-};
-
-Education.propTypes = {
-  education: PropTypes.array.isRequired,
-  deleteEducation: PropTypes.func.isRequired,
 };
 
 export default Education;
